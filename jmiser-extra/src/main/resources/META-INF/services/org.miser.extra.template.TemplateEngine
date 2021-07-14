@@ -1,0 +1,7 @@
+org.miser.extra.template.engine.beetl.BeetlEngine
+org.miser.extra.template.engine.freemarker.FreemarkerEngine
+org.miser.extra.template.engine.velocity.VelocityEngine
+org.miser.extra.template.engine.rythm.RythmEngine
+org.miser.extra.template.engine.enjoy.EnjoyEngine
+org.miser.extra.template.engine.thymeleaf.ThymeleafEngine
+org.miser.extra.template.engine.wit.WitEngine

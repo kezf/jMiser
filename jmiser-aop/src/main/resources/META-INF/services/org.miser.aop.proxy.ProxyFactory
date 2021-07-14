@@ -1,0 +1,3 @@
+org.miser.aop.proxy.CglibProxyFactory
+org.miser.aop.proxy.SpringCglibProxyFactory
+org.miser.aop.proxy.JdkProxyFactory

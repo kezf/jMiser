@@ -1,0 +1,5 @@
+org.miser.extra.pinyin.engine.tinypinyin.TinyPinyinEngine
+org.miser.extra.pinyin.engine.jpinyin.JPinyinEngine
+org.miser.extra.pinyin.engine.pinyin4j.Pinyin4jEngine
+org.miser.extra.pinyin.engine.bopomofo4j.Bopomofo4jEngine
+org.miser.extra.pinyin.engine.houbbpinyin.HoubbPinyinEngine
