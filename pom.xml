@@ -14,7 +14,7 @@
 	<url>https://jmiser.miser.org</url>
 
 	<modules>
-		<!-- <module>jmiser-all</module> -->
+		<module>jmiser-all</module>
 		<module>jmiser-aop</module>
 		<module>jmiser-bloomFilter</module>
 		<module>jmiser-bom</module>
