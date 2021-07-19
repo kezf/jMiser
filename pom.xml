@@ -18,7 +18,6 @@
 		<module>jmiser-aop</module>
 		<module>jmiser-bloomFilter</module>
 		<module>jmiser-bom</module>
-		<module>jmiser-cache</module>
 		<module>jmiser-captcha</module>
 		<module>jmiser-core</module>
 		<module>jmiser-cron</module>

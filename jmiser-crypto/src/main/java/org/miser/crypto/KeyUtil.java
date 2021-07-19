@@ -57,7 +57,6 @@ import org.miser.crypto.symmetric.SymmetricAlgorithm;
  * </pre>
  *
  * @author Oliver
- * 
  */
 public class KeyUtil {
 

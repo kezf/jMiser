@@ -29,7 +29,6 @@ import org.miser.core.io.IORuntimeException;
  * Bouncy Castle相关工具类封装
  *
  * @author Oliver
- * 
  */
 public class BCUtil {
 
@@ -46,7 +45,6 @@ public class BCUtil {
 
 	/**
 	 * 编码压缩EC公钥（基于BouncyCastle），即Q值<br>
-	 * 见：https://www.cnblogs.com/xinzhao/p/8963724.html
 	 *
 	 * @param publicKey {@link PublicKey}，必须为org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
 	 * @return 压缩得到的Q
@@ -58,7 +56,6 @@ public class BCUtil {
 
 	/**
 	 * 编码压缩EC公钥（基于BouncyCastle），即Q值<br>
-	 * 见：https://www.cnblogs.com/xinzhao/p/8963724.html
 	 *
 	 * @param publicKey    {@link PublicKey}，必须为org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
 	 * @param isCompressed 是否压缩
@@ -71,7 +68,6 @@ public class BCUtil {
 
 	/**
 	 * 解码恢复EC压缩公钥,支持Base64和Hex编码,（基于BouncyCastle）<br>
-	 * 见：https://www.cnblogs.com/xinzhao/p/8963724.html
 	 *
 	 * @param encode    压缩公钥
 	 * @param curveName EC曲线名

@@ -33,11 +33,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.miser</groupId>
-			<artifactId>jmiser-cache</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.miser</groupId>
 			<artifactId>jmiser-crypto</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

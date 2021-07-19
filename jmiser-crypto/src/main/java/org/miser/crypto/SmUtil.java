@@ -41,7 +41,6 @@ import org.miser.crypto.symmetric.SymmetricCrypto;
  * </ul>
  *
  * @author Oliver
- * 
  */
 public class SmUtil {
 
@@ -51,7 +50,7 @@ public class SmUtil {
 	 */
 	public static final String SM2_CURVE_NAME = "sm2p256v1";
 	/**
-	 * SM2推荐曲线参数（来自https://github.com/ZZMarquis/gmhelper）
+	 * SM2推荐曲线参数
 	 */
 	public static final ECDomainParameters SM2_DOMAIN_PARAMS = BCUtil
 			.toDomainParams(GMNamedCurves.getByName(SM2_CURVE_NAME));

@@ -10,7 +10,6 @@ package org.miser.crypto;
  * @see <a href=
  *      "https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#Cipher">
  *      Cipher章节</a>
- * 
  */
 public enum Padding {
 	/**

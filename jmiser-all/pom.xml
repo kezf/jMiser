@@ -35,11 +35,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.miser</groupId>
-			<artifactId>jmiser-cache</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.miser</groupId>
 			<artifactId>jmiser-crypto</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -124,7 +119,6 @@
 						</goals>
 						<configuration>
 							<createSourcesJar>true</createSourcesJar>
-							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<artifactSet>
 								<includes>
 									<include>${project.groupId}:*:*</include>
