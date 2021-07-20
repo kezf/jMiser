@@ -8,7 +8,6 @@ import org.miser.socket.SocketRuntimeException;
  * 数据读取完成回调，调用Session中相应方法处理消息，单例使用
  * 
  * @author Oliver
- *
  */
 public class ReadHandler implements CompletionHandler<Integer, AioSession> {
 

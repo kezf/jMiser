@@ -22,10 +22,5 @@
 			<artifactId>jmiser-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.miser</groupId>
-			<artifactId>jmiser-log</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
 	</dependencies>
 </project>

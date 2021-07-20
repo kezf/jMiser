@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 代表当前OS的信息。
  */
-public class OsInfo implements Serializable{
+public class OsInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final String OS_VERSION = SystemUtil.get("os.version", false);
@@ -361,7 +361,7 @@ public class OsInfo implements Serializable{
 	/**
 	 * 匹配OS名称。
 	 *
-	 * @param osNamePrefix OS名称前缀
+	 * @param osNamePrefix    OS名称前缀
 	 * @param osVersionPrefix OS版本前缀
 	 *
 	 * @return 如果匹配，则返回{@code true}

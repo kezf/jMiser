@@ -1,10 +1,5 @@
 package org.miser.socket.nio;
 
-import org.miser.core.io.IORuntimeException;
-import org.miser.core.io.IOUtil;
-import org.miser.log.Log;
-import org.miser.log.StaticLog;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -14,14 +9,15 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
+import org.miser.core.io.IOUtil;
+import org.miser.socket.SocketRuntimeException;
+
 /**
  * 基于NIO的Socket服务端实现
  * 
  * @author Oliver
- *
  */
 public class NioServer implements Closeable {
-	private static final Log log = Log.get();
 
 	private static final AcceptHandler ACCEPT_HANDLER = new AcceptHandler();
 
@@ -58,11 +54,8 @@ public class NioServer implements Closeable {
 			// 服务器套接字注册到Selector中 并指定Selector监控连接事件
 			this.serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 		} catch (IOException e) {
-			throw new IORuntimeException(e);
+			throw new SocketRuntimeException(e);
 		}
-
-		log.debug("Server listen on: [{}]...", address);
-
 		return this;
 	}
 
@@ -72,7 +65,7 @@ public class NioServer implements Closeable {
 	 * @param handler {@link ChannelHandler}
 	 * @return this
 	 */
-	public NioServer setChannelHandler(ChannelHandler handler){
+	public NioServer setChannelHandler(ChannelHandler handler) {
 		this.handler = handler;
 		return this;
 	}
@@ -82,7 +75,7 @@ public class NioServer implements Closeable {
 	 *
 	 * @return {@link Selector}
 	 */
-	public Selector getSelector(){
+	public Selector getSelector() {
 		return this.selector;
 	}
 
@@ -91,7 +84,7 @@ public class NioServer implements Closeable {
 	 *
 	 * @see #listen()
 	 */
-	public void start(){
+	public void start() {
 		listen();
 	}
 
@@ -102,7 +95,7 @@ public class NioServer implements Closeable {
 		try {
 			doListen();
 		} catch (IOException e) {
-			throw new IORuntimeException(e);
+			throw new SocketRuntimeException(e);
 		}
 	}
 
@@ -136,11 +129,11 @@ public class NioServer implements Closeable {
 		// 读事件就绪
 		if (key.isReadable()) {
 			final SocketChannel socketChannel = (SocketChannel) key.channel();
-			try{
+			try {
 				handler.handle(socketChannel);
-			} catch (Exception e){
+			} catch (Exception e) {
 				IOUtil.close(socketChannel);
-				StaticLog.error(e);
+				e.printStackTrace();
 			}
 		}
 	}

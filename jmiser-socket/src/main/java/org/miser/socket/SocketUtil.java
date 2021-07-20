@@ -11,10 +11,9 @@ import org.miser.core.io.IORuntimeException;
  * Socket相关工具类
  * 
  * @author Oliver
- * 
  */
 public class SocketUtil {
-	
+
 	/**
 	 * 获取远程端的地址信息，包括host和端口<br>
 	 * null表示channel为null或者远程主机未连接

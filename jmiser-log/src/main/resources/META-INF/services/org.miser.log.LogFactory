@@ -1,8 +1,0 @@
-org.miser.log.dialect.logtube.LogTubeLogFactory
-org.miser.log.dialect.slf4j.Slf4jLogFactory
-org.miser.log.dialect.log4j2.Log4j2LogFactory
-org.miser.log.dialect.log4j.Log4jLogFactory
-org.miser.log.dialect.commons.ApacheCommonsLogFactory
-org.miser.log.dialect.tinylog.TinyLogFactory
-org.miser.log.dialect.tinylog.TinyLog2Factory
-org.miser.log.dialect.jboss.JbossLogFactory

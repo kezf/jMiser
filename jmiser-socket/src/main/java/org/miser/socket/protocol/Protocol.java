@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2017, org.smartboot. All rights reserved.
- * project name: smart-socket
- * file name: Protocol.java
- * Date: 2017-11-25
- * Author: sandao
- */
-
 package org.miser.socket.protocol;
 
 /**
@@ -18,6 +10,6 @@ package org.miser.socket.protocol;
  *
  * @author Oliver
  */
-public interface Protocol<T> extends MsgEncoder<T>, MsgDecoder<T> {
+public interface Protocol<T> extends MessageEncoder<T>, MesssageDecoder<T> {
 
 }

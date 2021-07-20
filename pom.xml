@@ -27,7 +27,6 @@
 		<module>jmiser-http</module>
 		<module>jmiser-json</module>
 		<module>jmiser-jwt</module>
-		<module>jmiser-log</module>
 		<module>jmiser-poi</module>
 		<module>jmiser-script</module>
 		<module>jmiser-setting</module>

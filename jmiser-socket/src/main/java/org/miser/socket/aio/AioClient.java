@@ -1,11 +1,5 @@
 package org.miser.socket.aio;
 
-import org.miser.core.io.IORuntimeException;
-import org.miser.core.io.IOUtil;
-import org.miser.core.thread.ThreadFactoryBuilder;
-import org.miser.socket.SocketConfig;
-import org.miser.socket.SocketRuntimeException;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -15,55 +9,60 @@ import java.nio.channels.AsynchronousChannelGroup;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.ExecutionException;
 
+import org.miser.core.io.IOUtil;
+import org.miser.core.thread.ThreadFactoryBuilder;
+import org.miser.socket.SocketConfig;
+import org.miser.socket.SocketRuntimeException;
+
 /**
  * Aio Socket客户端
  *
  * @author Oliver
  * 
  */
-public class AioClient implements Closeable{
+public class AioClient implements Closeable {
 
-	private final AioSession session;
+	private AioSession session;
 
 	/**
 	 * 构造
 	 *
-	 * @param address 地址
-	 * @param ioAction IO处理类
+	 * @param host 服务器地址
+	 * @param port 端口
 	 */
-	public AioClient(InetSocketAddress address, IoAction<ByteBuffer> ioAction) {
-		this(address, ioAction, new SocketConfig());
+	public AioClient(String host, int port, AioAction<ByteBuffer> action) {
+		this(host, port, action, new SocketConfig());
 	}
 
 	/**
 	 * 构造
 	 *
 	 * @param address 地址
-	 * @param ioAction IO处理类
-	 * @param config 配置项
+	 * @param action  IO处理类
 	 */
-	public AioClient(InetSocketAddress address, IoAction<ByteBuffer> ioAction, SocketConfig config) {
-		this(createChannel(address, config.getThreadPoolSize()), ioAction, config);
+	public AioClient(String host, int port, AioAction<ByteBuffer> action, SocketConfig config) {
+		init(createChannel(new InetSocketAddress(host, port), config.getThreadPoolSize()), action, config);
 	}
 
 	/**
 	 * 构造
 	 *
 	 * @param channel {@link AsynchronousSocketChannel}
-	 * @param ioAction IO处理类
-	 * @param config 配置项
+	 * @param action  IO处理类
+	 * @param config  配置项
 	 */
-	public AioClient(AsynchronousSocketChannel channel, IoAction<ByteBuffer> ioAction, SocketConfig config) {
-		this.session = new AioSession(channel, ioAction, config);
-		ioAction.accept(this.session);
+	public AioClient init(AsynchronousSocketChannel channel, AioAction<ByteBuffer> action, SocketConfig config) {
+		this.session = new AioSession(channel, action, config);
+		action.accept(this.session);
+		return this;
 	}
 
 	/**
 	 * 设置 Socket 的 Option 选项<br>
 	 * 选项见：{@link java.net.StandardSocketOptions}
 	 *
-	 * @param <T> 选项泛型
-	 * @param name {@link SocketOption} 枚举
+	 * @param <T>   选项泛型
+	 * @param name  {@link SocketOption} 枚举
 	 * @param value SocketOption参数
 	 * @return this
 	 * @throws IOException IO异常
@@ -76,10 +75,10 @@ public class AioClient implements Closeable{
 	/**
 	 * 获取IO处理器
 	 *
-	 * @return {@link IoAction}
+	 * @return {@link AioAction}
 	 */
-	public IoAction<ByteBuffer> getIoAction() {
-		return this.session.getIoAction();
+	public AioAction<ByteBuffer> getAction() {
+		return this.session.getAction();
 	}
 
 	/**
@@ -111,11 +110,12 @@ public class AioClient implements Closeable{
 		this.session.close();
 	}
 
-	// ------------------------------------------------------------------------------------- Private method start
+	// -------------------------------------------------------------------------------------
+	// Private method start
 	/**
 	 * 初始化
 	 *
-	 * @param address 地址和端口
+	 * @param address  地址和端口
 	 * @param poolSize 线程池大小
 	 * @return this
 	 */
@@ -125,11 +125,11 @@ public class AioClient implements Closeable{
 		try {
 			AsynchronousChannelGroup group = AsynchronousChannelGroup.withFixedThreadPool(//
 					poolSize, // 默认线程池大小
-					ThreadFactoryBuilder.create().setNamePrefix("Huool-socket-").build()//
+					ThreadFactoryBuilder.create().setNamePrefix("aio-client-socket-").build()//
 			);
 			channel = AsynchronousSocketChannel.open(group);
 		} catch (IOException e) {
-			throw new IORuntimeException(e);
+			throw new SocketRuntimeException(e);
 		}
 
 		try {
@@ -140,5 +140,6 @@ public class AioClient implements Closeable{
 		}
 		return channel;
 	}
-	// ------------------------------------------------------------------------------------- Private method end
+	// -------------------------------------------------------------------------------------
+	// Private method end
 }

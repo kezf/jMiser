@@ -1,13 +1,5 @@
 package org.miser.socket.aio;
 
-import org.miser.core.io.IORuntimeException;
-import org.miser.core.io.IOUtil;
-import org.miser.core.thread.ThreadFactoryBuilder;
-import org.miser.core.thread.ThreadUtil;
-import org.miser.log.Log;
-import org.miser.log.LogFactory;
-import org.miser.socket.SocketConfig;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,20 +8,25 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousChannelGroup;
 import java.nio.channels.AsynchronousServerSocketChannel;
 
+import org.miser.core.io.IOUtil;
+import org.miser.core.thread.ThreadFactoryBuilder;
+import org.miser.core.thread.ThreadUtil;
+import org.miser.socket.SocketConfig;
+import org.miser.socket.SocketRuntimeException;
+
 /**
  * 基于AIO的Socket服务端实现
  *
  * @author Oliver
  */
 public class AioServer implements Closeable {
-	private static final Log log = LogFactory.get();
+
 	private static final AcceptHandler ACCEPT_HANDLER = new AcceptHandler();
 
 	private AsynchronousChannelGroup group;
 	private AsynchronousServerSocketChannel channel;
-	protected IoAction<ByteBuffer> ioAction;
-	protected final SocketConfig config;
-
+	protected SocketConfig config;
+	protected AioAction<ByteBuffer> action;
 
 	/**
 	 * 构造
@@ -37,35 +34,37 @@ public class AioServer implements Closeable {
 	 * @param port 端口
 	 */
 	public AioServer(int port) {
-		this(new InetSocketAddress(port), new SocketConfig());
+		this(port, new SocketConfig());
 	}
 
 	/**
 	 * 构造
 	 *
-	 * @param address 地址
-	 * @param config  {@link SocketConfig} 配置项
+	 * @param port   端口
+	 * @param config 配置项
 	 */
-	public AioServer(InetSocketAddress address, SocketConfig config) {
-		this.config = config;
-		init(address);
+	public AioServer(int port, SocketConfig config) {
+		init(new InetSocketAddress(port), config);
 	}
 
 	/**
 	 * 初始化
 	 *
 	 * @param address 地址和端口
+	 * @param config  {@link SocketConfig} 配置项
+	 * 
 	 * @return this
 	 */
-	public AioServer init(InetSocketAddress address) {
+	public AioServer init(InetSocketAddress address, SocketConfig config) {
 		try {
+			this.config = config;
 			this.group = AsynchronousChannelGroup.withFixedThreadPool(//
 					config.getThreadPoolSize(), // 默认线程池大小
-					ThreadFactoryBuilder.create().setNamePrefix("sc-socket-").build()//
+					ThreadFactoryBuilder.create().setNamePrefix("aio-server-socket-").build()//
 			);
 			this.channel = AsynchronousServerSocketChannel.open(group).bind(address);
 		} catch (IOException e) {
-			throw new IORuntimeException(e);
+			throw new SocketRuntimeException(e);
 		}
 		return this;
 	}
@@ -76,7 +75,16 @@ public class AioServer implements Closeable {
 	 * @param sync 是否阻塞
 	 */
 	public void start(boolean sync) {
-		doStart(sync);
+		listen(sync);
+	}
+
+	/**
+	 * 开始监听
+	 *
+	 * @param sync 是否阻塞
+	 */
+	public void listen(boolean sync) {
+		doListen(sync);
 	}
 
 	/**
@@ -97,20 +105,20 @@ public class AioServer implements Closeable {
 	/**
 	 * 获取IO处理器
 	 *
-	 * @return {@link IoAction}
+	 * @return {@link AioAction}
 	 */
-	public IoAction<ByteBuffer> getIoAction() {
-		return this.ioAction;
+	public AioAction<ByteBuffer> getAction() {
+		return this.action;
 	}
 
 	/**
 	 * 设置IO处理器，单例存在
 	 *
-	 * @param ioAction {@link IoAction}
+	 * @param ioAction {@link AioAction}
 	 * @return this;
 	 */
-	public AioServer setIoAction(IoAction<ByteBuffer> ioAction) {
-		this.ioAction = ioAction;
+	public AioServer setAction(AioAction<ByteBuffer> action) {
+		this.action = action;
 		return this;
 	}
 
@@ -163,16 +171,15 @@ public class AioServer implements Closeable {
 		}
 	}
 
-	// ------------------------------------------------------------------------------------- Private method start
+	// -------------------------------------------------------------------------------------
+	// Private method start
 
 	/**
 	 * 开始监听
 	 *
 	 * @param sync 是否阻塞
 	 */
-	private void doStart(boolean sync) {
-		log.debug("Aio Server started, waiting for accept.");
-
+	private void doListen(boolean sync) {
 		// 接收客户端连接
 		accept();
 
@@ -180,5 +187,6 @@ public class AioServer implements Closeable {
 			ThreadUtil.sync(this);
 		}
 	}
-	// ------------------------------------------------------------------------------------- Private method end
+	// -------------------------------------------------------------------------------------
+	// Private method end
 }

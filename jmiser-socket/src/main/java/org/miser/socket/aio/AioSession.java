@@ -1,10 +1,5 @@
 package org.miser.socket.aio;
 
-import org.miser.core.io.IORuntimeException;
-import org.miser.core.io.IOUtil;
-import org.miser.socket.SocketConfig;
-import org.miser.socket.SocketUtil;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.SocketAddress;
@@ -14,6 +9,11 @@ import java.nio.channels.CompletionHandler;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.miser.core.io.IOUtil;
+import org.miser.socket.SocketConfig;
+import org.miser.socket.SocketRuntimeException;
+import org.miser.socket.SocketUtil;
+
 /**
  * AIO会话<br>
  * 每个客户端对应一个会话对象
@@ -21,12 +21,12 @@ import java.util.concurrent.TimeUnit;
  * @author Oliver
  *
  */
-public class AioSession implements Closeable{
+public class AioSession implements Closeable {
 
 	private static final ReadHandler READ_HANDLER = new ReadHandler();
 
 	private final AsynchronousSocketChannel channel;
-	private final IoAction<ByteBuffer> ioAction;
+	private final AioAction<ByteBuffer> action;
 	private ByteBuffer readBuffer;
 	private ByteBuffer writeBuffer;
 	/** 读取超时时长，小于等于0表示默认 */
@@ -37,13 +37,13 @@ public class AioSession implements Closeable{
 	/**
 	 * 构造
 	 * 
-	 * @param channel {@link AsynchronousSocketChannel}
+	 * @param channel  {@link AsynchronousSocketChannel}
 	 * @param ioAction IO消息处理类
-	 * @param config 配置项
+	 * @param config   配置项
 	 */
-	public AioSession(AsynchronousSocketChannel channel, IoAction<ByteBuffer> ioAction, SocketConfig config) {
+	public AioSession(AsynchronousSocketChannel channel, AioAction<ByteBuffer> action, SocketConfig config) {
 		this.channel = channel;
-		this.ioAction = ioAction;
+		this.action = action;
 
 		this.readBuffer = ByteBuffer.allocate(config.getReadBufferSize());
 		this.writeBuffer = ByteBuffer.allocate(config.getWriteBufferSize());
@@ -81,10 +81,10 @@ public class AioSession implements Closeable{
 	/**
 	 * 获取消息处理器
 	 * 
-	 * @return {@link IoAction}
+	 * @return {@link AioAction}
 	 */
-	public IoAction<ByteBuffer> getIoAction() {
-		return this.ioAction;
+	public AioAction<ByteBuffer> getAction() {
+		return this.action;
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class AioSession implements Closeable{
 	/**
 	 * 写数据到目标端
 	 *
-	 * @param data 数据
+	 * @param data    数据
 	 * @param handler {@link CompletionHandler}
 	 * @return this
 	 */
@@ -172,7 +172,7 @@ public class AioSession implements Closeable{
 			try {
 				this.channel.shutdownInput();
 			} catch (IOException e) {
-				throw new IORuntimeException(e);
+				throw new SocketRuntimeException(e);
 			}
 		}
 		return this;
@@ -188,7 +188,7 @@ public class AioSession implements Closeable{
 			try {
 				this.channel.shutdownOutput();
 			} catch (IOException e) {
-				throw new IORuntimeException(e);
+				throw new SocketRuntimeException(e);
 			}
 		}
 		return this;
@@ -209,6 +209,6 @@ public class AioSession implements Closeable{
 	 */
 	protected void callbackRead() {
 		readBuffer.flip();// 读模式
-		ioAction.doAction(this, readBuffer);
+		this.action.doAction(this, readBuffer);
 	}
 }

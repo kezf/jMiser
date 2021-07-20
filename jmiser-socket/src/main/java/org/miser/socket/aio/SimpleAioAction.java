@@ -2,7 +2,7 @@ package org.miser.socket.aio;
 
 import java.nio.ByteBuffer;
 
-import org.miser.log.StaticLog;
+import org.miser.socket.SocketRuntimeException;
 
 /**
  * 简易IO信息处理类<br>
@@ -11,14 +11,14 @@ import org.miser.log.StaticLog;
  * @author Oliver
  *
  */
-public abstract class SimpleIoAction implements IoAction<ByteBuffer> {
-	
+public abstract class SimpleAioAction implements AioAction<ByteBuffer> {
+
 	@Override
 	public void accept(AioSession session) {
 	}
 
 	@Override
 	public void failed(Throwable exc, AioSession session) {
-		StaticLog.error(exc);
+		throw new SocketRuntimeException(exc);
 	}
 }

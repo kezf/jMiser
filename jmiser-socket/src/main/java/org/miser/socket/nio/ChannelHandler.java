@@ -4,7 +4,6 @@ import java.nio.channels.SocketChannel;
 
 /**
  * NIO数据处理接口，通过实现此接口，可以从{@link SocketChannel}中读写数据
- *
  */
 @FunctionalInterface
 public interface ChannelHandler {

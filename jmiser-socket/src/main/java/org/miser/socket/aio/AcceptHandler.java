@@ -4,34 +4,35 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 
-import org.miser.log.StaticLog;
+import org.miser.socket.SocketConfig;
+import org.miser.socket.SocketRuntimeException;
 
 /**
  * 接入完成回调，单例使用
  * 
  * @author Oliver
- *
  */
 public class AcceptHandler implements CompletionHandler<AsynchronousSocketChannel, AioServer> {
 
 	@Override
-	public void completed(AsynchronousSocketChannel socketChannel, AioServer aioServer) {
+	public void completed(AsynchronousSocketChannel channel, AioServer server) {
 		// 继续等待接入（异步）
-		aioServer.accept();
+		server.accept();
 
-		final IoAction<ByteBuffer> ioAction = aioServer.ioAction;
+		final AioAction<ByteBuffer> action = server.action;
+		final SocketConfig config = server.config;
 		// 创建Session会话
-		final AioSession session = new AioSession(socketChannel, ioAction, aioServer.config);
+		final AioSession session = new AioSession(channel, action, config);
 		// 处理请求接入（同步）
-		ioAction.accept(session);
+		action.accept(session);
 
 		// 处理读（异步）
 		session.read();
 	}
 
 	@Override
-	public void failed(Throwable exc, AioServer aioServer) {
-		StaticLog.error(exc);
+	public void failed(Throwable exc, AioServer server) {
+		throw new SocketRuntimeException(exc);
 	}
 
 }

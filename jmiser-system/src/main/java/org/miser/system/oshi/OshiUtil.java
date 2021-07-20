@@ -1,5 +1,8 @@
 package org.miser.system.oshi;
 
+import java.text.DecimalFormat;
+import java.util.List;
+
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.ComputerSystem;
@@ -11,9 +14,6 @@ import oshi.hardware.Sensors;
 import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
 /**
  * Oshi库封装的工具类，通过此工具类，可获取系统、硬件相关信息
  * 
@@ -22,10 +22,8 @@ import java.util.List;
  * 2、硬件信息
  * </pre>
  *
- * 相关内容见：https://github.com/oshi/oshi
  * 
  * @author Oliver
- * 
  */
 public class OshiUtil {
 

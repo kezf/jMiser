@@ -1,10 +1,5 @@
 package org.miser.socket.nio;
 
-import org.miser.core.io.IORuntimeException;
-import org.miser.core.io.IOUtil;
-import org.miser.core.thread.ThreadUtil;
-import org.miser.socket.SocketRuntimeException;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -14,11 +9,14 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
+import org.miser.core.io.IOUtil;
+import org.miser.core.thread.ThreadUtil;
+import org.miser.socket.SocketRuntimeException;
+
 /**
  * NIO客户端
  *
  * @author Oliver
- * 
  */
 public class NioClient implements Closeable {
 
@@ -37,15 +35,6 @@ public class NioClient implements Closeable {
 	}
 
 	/**
-	 * 构造
-	 *
-	 * @param address 服务器地址
-	 */
-	public NioClient(InetSocketAddress address) {
-		init(address);
-	}
-
-	/**
 	 * 初始化
 	 *
 	 * @param address 地址和端口
@@ -53,21 +42,22 @@ public class NioClient implements Closeable {
 	 */
 	public NioClient init(InetSocketAddress address) {
 		try {
-			//创建一个SocketChannel对象，配置成非阻塞模式
+			// 创建一个SocketChannel对象，配置成非阻塞模式
 			this.channel = SocketChannel.open();
 			channel.configureBlocking(false);
 			channel.connect(address);
 
-			//创建一个选择器，并把SocketChannel交给selector对象
+			// 创建一个选择器，并把SocketChannel交给selector对象
 			this.selector = Selector.open();
 			channel.register(this.selector, SelectionKey.OP_READ);
 
 			// 等待建立连接
-			//noinspection StatementWithEmptyBody
-			while (false == channel.finishConnect()){}
-		} catch (IOException e) {
+			// noinspection StatementWithEmptyBody
+			while (false == channel.finishConnect()) {
+			}
+		} catch (Exception e) {
 			close();
-			throw new IORuntimeException(e);
+			throw new SocketRuntimeException(e);
 		}
 		return this;
 	}
@@ -78,7 +68,7 @@ public class NioClient implements Closeable {
 	 * @param handler {@link ChannelHandler}
 	 * @return this
 	 */
-	public NioClient setChannelHandler(ChannelHandler handler){
+	public NioClient setChannelHandler(ChannelHandler handler) {
 		this.handler = handler;
 		return this;
 	}
@@ -121,9 +111,9 @@ public class NioClient implements Closeable {
 		// 读事件就绪
 		if (key.isReadable()) {
 			final SocketChannel socketChannel = (SocketChannel) key.channel();
-			try{
+			try {
 				handler.handle(socketChannel);
-			} catch (Exception e){
+			} catch (Exception e) {
 				throw new SocketRuntimeException(e);
 			}
 		}
@@ -140,7 +130,7 @@ public class NioClient implements Closeable {
 		try {
 			this.channel.write(datas);
 		} catch (IOException e) {
-			throw new IORuntimeException(e);
+			throw new SocketRuntimeException(e);
 		}
 		return this;
 	}

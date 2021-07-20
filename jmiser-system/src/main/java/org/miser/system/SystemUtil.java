@@ -1,10 +1,5 @@
 package org.miser.system;
 
-import org.miser.core.convert.Convert;
-import org.miser.core.lang.Console;
-import org.miser.core.lang.Singleton;
-import org.miser.core.util.StringUtil;
-
 import java.io.PrintWriter;
 import java.lang.management.ClassLoadingMXBean;
 import java.lang.management.CompilationMXBean;
@@ -19,9 +14,13 @@ import java.lang.management.ThreadMXBean;
 import java.util.List;
 import java.util.Properties;
 
+import org.miser.core.convert.Convert;
+import org.miser.core.lang.Console;
+import org.miser.core.lang.Singleton;
+import org.miser.core.util.StringUtil;
+
 /**
  * Java的System类封装工具类。<br>
- * 参考：http://blog.csdn.net/zhongweijian/article/details/7619383
  *
  * @author Oliver
  */
@@ -31,125 +30,126 @@ public class SystemUtil {
 	/**
 	 * Java 运行时环境规范名称的KEY
 	 */
-	public final static String SPECIFICATION_NAME = SystemPropsKeys.SPECIFICATION_NAME;
+	public final static String SPECIFICATION_NAME = SystemPropertyKeys.SPECIFICATION_NAME;
 	/**
 	 * Java 运行时环境版本的KEY
 	 */
-	public final static String VERSION = SystemPropsKeys.VERSION;
+	public final static String VERSION = SystemPropertyKeys.VERSION;
 	/**
 	 * Java 运行时环境规范版本的KEY
 	 */
-	public final static String SPECIFICATION_VERSION = SystemPropsKeys.SPECIFICATION_VERSION;
+	public final static String SPECIFICATION_VERSION = SystemPropertyKeys.SPECIFICATION_VERSION;
 	/**
 	 * Java 运行时环境供应商的KEY
 	 */
-	public final static String VENDOR = SystemPropsKeys.VENDOR;
+	public final static String VENDOR = SystemPropertyKeys.VENDOR;
 	/**
 	 * Java 运行时环境规范供应商的KEY
 	 */
-	public final static String SPECIFICATION_VENDOR = SystemPropsKeys.SPECIFICATION_VENDOR;
+	public final static String SPECIFICATION_VENDOR = SystemPropertyKeys.SPECIFICATION_VENDOR;
 	/**
 	 * Java 供应商的 URL的KEY
 	 */
-	public final static String VENDOR_URL = SystemPropsKeys.VENDOR_URL;
+	public final static String VENDOR_URL = SystemPropertyKeys.VENDOR_URL;
 	/**
 	 * Java 安装目录的KEY
 	 */
-	public final static String HOME = SystemPropsKeys.HOME;
+	public final static String HOME = SystemPropertyKeys.HOME;
 	/**
 	 * 加载库时搜索的路径列表的KEY
 	 */
-	public final static String LIBRARY_PATH = SystemPropsKeys.LIBRARY_PATH;
+	public final static String LIBRARY_PATH = SystemPropertyKeys.LIBRARY_PATH;
 	/**
 	 * 默认的临时文件路径的KEY
 	 */
-	public final static String TMPDIR = SystemPropsKeys.TMPDIR;
+	public final static String TMPDIR = SystemPropertyKeys.TMPDIR;
 	/**
 	 * 要使用的 JIT 编译器的名称的KEY
 	 */
-	public final static String COMPILER = SystemPropsKeys.COMPILER;
+	public final static String COMPILER = SystemPropertyKeys.COMPILER;
 	/**
 	 * 一个或多个扩展目录的路径的KEY
 	 */
-	public final static String EXT_DIRS = SystemPropsKeys.EXT_DIRS;
+	public final static String EXT_DIRS = SystemPropertyKeys.EXT_DIRS;
 
 	// ----- Java虚拟机信息 -----/
 	/**
 	 * Java 虚拟机实现名称的KEY
 	 */
-	public final static String VM_NAME = SystemPropsKeys.VM_NAME;
+	public final static String VM_NAME = SystemPropertyKeys.VM_NAME;
 	/**
 	 * Java 虚拟机规范名称的KEY
 	 */
-	public final static String VM_SPECIFICATION_NAME = SystemPropsKeys.VM_SPECIFICATION_NAME;
+	public final static String VM_SPECIFICATION_NAME = SystemPropertyKeys.VM_SPECIFICATION_NAME;
 	/**
 	 * Java 虚拟机实现版本的KEY
 	 */
-	public final static String VM_VERSION = SystemPropsKeys.VM_VERSION;
+	public final static String VM_VERSION = SystemPropertyKeys.VM_VERSION;
 	/**
 	 * Java 虚拟机规范版本的KEY
 	 */
-	public final static String VM_SPECIFICATION_VERSION = SystemPropsKeys.VM_SPECIFICATION_VERSION;
+	public final static String VM_SPECIFICATION_VERSION = SystemPropertyKeys.VM_SPECIFICATION_VERSION;
 	/**
 	 * Java 虚拟机实现供应商的KEY
 	 */
-	public final static String VM_VENDOR = SystemPropsKeys.VM_VENDOR;
+	public final static String VM_VENDOR = SystemPropertyKeys.VM_VENDOR;
 	/**
 	 * Java 虚拟机规范供应商的KEY
 	 */
-	public final static String VM_SPECIFICATION_VENDOR = SystemPropsKeys.VM_SPECIFICATION_VENDOR;
+	public final static String VM_SPECIFICATION_VENDOR = SystemPropertyKeys.VM_SPECIFICATION_VENDOR;
 
 	// ----- Java类信息 -----/
 	/**
 	 * Java 类格式版本号的KEY
 	 */
-	public final static String CLASS_VERSION = SystemPropsKeys.CLASS_VERSION;
+	public final static String CLASS_VERSION = SystemPropertyKeys.CLASS_VERSION;
 	/**
 	 * Java 类路径的KEY
 	 */
-	public final static String CLASS_PATH = SystemPropsKeys.CLASS_PATH;
+	public final static String CLASS_PATH = SystemPropertyKeys.CLASS_PATH;
 
 	// ----- OS信息 -----/
 	/**
 	 * 操作系统的名称的KEY
 	 */
-	public final static String OS_NAME = SystemPropsKeys.OS_NAME;
+	public final static String OS_NAME = SystemPropertyKeys.OS_NAME;
 	/**
 	 * 操作系统的架构的KEY
 	 */
-	public final static String OS_ARCH = SystemPropsKeys.OS_ARCH;
+	public final static String OS_ARCH = SystemPropertyKeys.OS_ARCH;
 	/**
 	 * 操作系统的版本的KEY
 	 */
-	public final static String OS_VERSION = SystemPropsKeys.OS_VERSION;
+	public final static String OS_VERSION = SystemPropertyKeys.OS_VERSION;
 	/**
 	 * 文件分隔符（在 UNIX 系统中是“/”）的KEY
 	 */
-	public final static String FILE_SEPARATOR = SystemPropsKeys.FILE_SEPARATOR;
+	public final static String FILE_SEPARATOR = SystemPropertyKeys.FILE_SEPARATOR;
 	/**
 	 * 路径分隔符（在 UNIX 系统中是“:”）的KEY
 	 */
-	public final static String PATH_SEPARATOR = SystemPropsKeys.PATH_SEPARATOR;
+	public final static String PATH_SEPARATOR = SystemPropertyKeys.PATH_SEPARATOR;
 	/**
 	 * 行分隔符（在 UNIX 系统中是“\n”）的KEY
 	 */
-	public final static String LINE_SEPARATOR = SystemPropsKeys.LINE_SEPARATOR;
+	public final static String LINE_SEPARATOR = SystemPropertyKeys.LINE_SEPARATOR;
 
 	// ----- 用户信息 -----/
 	/**
 	 * 用户的账户名称的KEY
 	 */
-	public final static String USER_NAME = SystemPropsKeys.USER_NAME;
+	public final static String USER_NAME = SystemPropertyKeys.USER_NAME;
 	/**
 	 * 用户的主目录的KEY
 	 */
-	public final static String USER_HOME = SystemPropsKeys.USER_HOME;
+	public final static String USER_HOME = SystemPropertyKeys.USER_HOME;
 	/**
 	 * 用户的当前工作目录的KEY
 	 */
-	public final static String USER_DIR = SystemPropsKeys.USER_DIR;
+	public final static String USER_DIR = SystemPropertyKeys.USER_DIR;
 
-	// ----------------------------------------------------------------------- Basic start
+	// ----------------------------------------------------------------------- Basic
+	// start
 
 	/**
 	 * 取得系统属性，如果因为Java安全的限制而失败，则将错误打在Log中，然后返回 defaultValue
@@ -179,8 +179,8 @@ public class SystemUtil {
 			value = System.getProperty(name);
 		} catch (SecurityException e) {
 			if (false == quiet) {
-				Console.error("Caught a SecurityException reading the system property '{}'; " +
-						"the SystemUtil property value will default to null.", name);
+				Console.error("Caught a SecurityException reading the system property '{}'; "
+						+ "the SystemUtil property value will default to null.", name);
 			}
 		}
 
@@ -189,8 +189,8 @@ public class SystemUtil {
 				value = System.getenv(name);
 			} catch (SecurityException e) {
 				if (false == quiet) {
-					Console.error("Caught a SecurityException reading the system env '{}'; " +
-							"the SystemUtil env value will default to null.", name);
+					Console.error("Caught a SecurityException reading the system env '{}'; "
+							+ "the SystemUtil env value will default to null.", name);
 				}
 			}
 		}
@@ -256,7 +256,7 @@ public class SystemUtil {
 	/**
 	 * @return 属性列表
 	 */
-	public static Properties props() {
+	public static Properties getProperties() {
 		return System.getProperties();
 	}
 
@@ -268,7 +268,8 @@ public class SystemUtil {
 	public static long getCurrentPID() {
 		return Long.parseLong(getRuntimeMXBean().getName().split("@")[0]);
 	}
-	// ----------------------------------------------------------------------- Basic end
+	// ----------------------------------------------------------------------- Basic
+	// end
 
 	/**
 	 * 返回Java虚拟机类加载系统相关属性
@@ -333,7 +334,8 @@ public class SystemUtil {
 
 	/**
 	 * 获取Java虚拟机中的{@link MemoryPoolMXBean}列表<br>
-	 * The Java virtual machine can have one or more memory pools. It may add or remove memory pools during execution.
+	 * The Java virtual machine can have one or more memory pools. It may add or
+	 * remove memory pools during execution.
 	 *
 	 * @return a list of <tt>MemoryPoolMXBean</tt> objects.
 	 */
@@ -343,7 +345,8 @@ public class SystemUtil {
 
 	/**
 	 * 获取Java虚拟机中的{@link MemoryManagerMXBean}列表<br>
-	 * The Java virtual machine can have one or more memory managers. It may add or remove memory managers during execution.
+	 * The Java virtual machine can have one or more memory managers. It may add or
+	 * remove memory managers during execution.
 	 *
 	 * @return a list of <tt>MemoryManagerMXBean</tt> objects.
 	 */

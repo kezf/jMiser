@@ -8,9 +8,8 @@ package org.miser.system;
  *
  *
  * @author Oliver
- * 
  */
-public interface SystemPropsKeys {
+public interface SystemPropertyKeys {
 
 	// ----- Java运行时环境信息 -----/
 	/**

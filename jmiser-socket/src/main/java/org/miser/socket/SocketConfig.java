@@ -1,17 +1,16 @@
 package org.miser.socket;
 
+import java.io.Serializable;
+
 import org.miser.core.io.IOUtil;
 import org.miser.core.util.RuntimeUtil;
-
-import java.io.Serializable;
 
 /**
  * Socket通讯配置
  * 
  * @author Oliver
- *
  */
-public class SocketConfig implements Serializable{
+public class SocketConfig implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** CPU核心数 */
@@ -29,7 +28,7 @@ public class SocketConfig implements Serializable{
 	private int readBufferSize = IOUtil.DEFAULT_BUFFER_SIZE;
 	/** 写出缓存大小 */
 	private int writeBufferSize = IOUtil.DEFAULT_BUFFER_SIZE;
-	
+
 	/**
 	 * 获取共享线程池大小，此线程池用于接收和处理用户连接
 	 * 
@@ -86,6 +85,7 @@ public class SocketConfig implements Serializable{
 
 	/**
 	 * 获取读取缓存大小
+	 * 
 	 * @return 读取缓存大小
 	 */
 	public int getReadBufferSize() {
@@ -94,6 +94,7 @@ public class SocketConfig implements Serializable{
 
 	/**
 	 * 设置读取缓存大小
+	 * 
 	 * @param readBufferSize 读取缓存大小
 	 */
 	public void setReadBufferSize(int readBufferSize) {
@@ -102,6 +103,7 @@ public class SocketConfig implements Serializable{
 
 	/**
 	 * 获取写出缓存大小
+	 * 
 	 * @return 写出缓存大小
 	 */
 	public int getWriteBufferSize() {
@@ -110,6 +112,7 @@ public class SocketConfig implements Serializable{
 
 	/**
 	 * 设置写出缓存大小
+	 * 
 	 * @param writeBufferSize 写出缓存大小
 	 */
 	public void setWriteBufferSize(int writeBufferSize) {

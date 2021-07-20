@@ -3,7 +3,9 @@ package org.miser.system.oshi;
 import java.text.DecimalFormat;
 
 /**
- * <p>CPU相关信息</p>
+ * <p>
+ * CPU相关信息
+ * </p>
  *
  * @author Oliver
  **/
@@ -116,15 +118,8 @@ public class CpuInfo {
 	@Override
 	public String toString() {
 		DecimalFormat format = new DecimalFormat("#.00");
-		return "CpuInfo{" +
-				"cpu核心数=" + cpuNum +
-				", CPU总的使用率=" + toTal +
-				", CPU系统使用率=" + sys +
-				", CPU用户使用率=" + used +
-				", CPU当前等待率=" + wait +
-				", CPU当前空闲率=" + free +
-				", CPU利用率=" + Double.parseDouble(format.format((100 - getFree()))) +
-				", CPU型号信息='" + cpuModel + '\'' +
-				'}';
+		return "CpuInfo{" + "cpu核心数=" + cpuNum + ", CPU总的使用率=" + toTal + ", CPU系统使用率=" + sys + ", CPU用户使用率=" + used
+				+ ", CPU当前等待率=" + wait + ", CPU当前空闲率=" + free + ", CPU利用率="
+				+ Double.parseDouble(format.format((100 - getFree()))) + ", CPU型号信息='" + cpuModel + '\'' + '}';
 	}
 }

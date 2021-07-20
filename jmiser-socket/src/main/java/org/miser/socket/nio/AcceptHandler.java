@@ -1,12 +1,11 @@
 package org.miser.socket.nio;
 
-import org.miser.core.io.IORuntimeException;
-import org.miser.log.StaticLog;
-
 import java.io.IOException;
 import java.nio.channels.CompletionHandler;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+
+import org.miser.socket.SocketRuntimeException;
 
 /**
  * 接入完成回调，单例使用
@@ -21,9 +20,8 @@ public class AcceptHandler implements CompletionHandler<ServerSocketChannel, Nio
 		try {
 			// 获取连接到此服务器的客户端通道
 			socketChannel = serverSocketChannel.accept();
-			StaticLog.debug("Client [{}] accepted.", socketChannel.getRemoteAddress());
 		} catch (IOException e) {
-			throw new IORuntimeException(e);
+			throw new SocketRuntimeException(e);
 		}
 
 		// SocketChannel通道的可读事件注册到Selector中
@@ -32,7 +30,7 @@ public class AcceptHandler implements CompletionHandler<ServerSocketChannel, Nio
 
 	@Override
 	public void failed(Throwable exc, NioServer nioServer) {
-		StaticLog.error(exc);
+		throw new SocketRuntimeException(exc);
 	}
 
 }
